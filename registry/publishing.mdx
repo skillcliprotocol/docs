@@ -1,0 +1,43 @@
+---
+title: "Publishing a skill"
+---
+
+Share your skill with the community by publishing it to the SCP registry.
+
+## Prerequisites
+
+- A valid `SKILL.md` in your skill directory
+- A `skill.json` manifest with `name`, `version`, and `description`
+- A registry account (`skills login`)
+
+## Publish
+
+```bash
+cd my-skill
+skills publish
+```
+
+The CLI validates your skill, packages it, and uploads it to the registry.
+
+## Versioning
+
+Follow [semver](https://semver.org):
+
+- **Patch** (1.0.1) — bug fixes, typo corrections
+- **Minor** (1.1.0) — new features, backward compatible
+- **Major** (2.0.0) — breaking changes to arguments or behavior
+
+## Updating
+
+```bash
+# Bump version in skill.json, then:
+skills publish
+```
+
+## Best practices
+
+- **Write a clear SKILL.md** — this is your skill's documentation, readme, and API reference in one file
+- **Include examples** — show real invocations with expected output
+- **Handle errors gracefully** — print useful messages to stderr
+- **Pin dependencies** — if your script requires external tools, document them
+- **Test before publishing** — run `skills lint` and test manually

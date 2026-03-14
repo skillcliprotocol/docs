@@ -1,0 +1,66 @@
+---
+title: "Why not MCP?"
+sidebarTitle: "SCP vs MCP"
+---
+
+MCP is a well-engineered protocol. It has a clear spec, good SDKs, and broad adoption. So why are people looking for alternatives?
+
+## Complexity cost
+
+To expose a simple function via MCP, you need to:
+
+1. Pick an SDK (TypeScript, Python, etc.)
+2. Implement a server with JSON-RPC handlers
+3. Define tool schemas with JSON Schema
+4. Handle lifecycle (initialize, capabilities, shutdown)
+5. Configure transport (stdio or HTTP)
+6. Run and manage the server process
+
+To expose the same function via SCP:
+
+1. Write a `SKILL.md` describing what it does
+2. Write a script that does it
+
+## The server problem
+
+MCP requires a running server for every integration. Each server is a process to manage, monitor, and restart. For an agent with 10 integrations, that's 10 server processes.
+
+SCP skills are inert files until the agent decides to use them. Nothing runs until something needs to run. When it does run, it's a short-lived process that exits when done.
+
+## LLMs read markdown better than schemas
+
+MCP describes tools with JSON Schema. SCP describes skills in markdown. Modern LLMs are remarkably good at understanding natural language instructions — often better than they are at correctly interpreting formal schemas.
+
+A well-written `SKILL.md` gives the agent context that a JSON schema can't: **when** to use the skill, **why** it exists, **caveats** to watch for, and **examples** of correct usage.
+
+## What MCP gets right
+
+Not everything about MCP is wrong. Some things are genuinely useful:
+
+- **Standardized tool descriptions** — so any client can discover capabilities
+- **Structured input/output** — so tools have predictable interfaces
+- **Broad adoption** — so there's a large ecosystem
+
+SCP achieves the first two through simpler means (markdown for descriptions, stdin/stdout for I/O). The ecosystem is what we're building now.
+
+## When MCP makes sense
+
+MCP is a better fit when you need:
+
+- **Remote tool servers** serving many clients over the network
+- **Fine-grained capability negotiation** between client and server
+- **Stateful, long-running connections** with bidirectional communication
+
+If your use case is "let an AI agent on my machine use a tool," SCP is simpler.
+
+## Side by side
+
+| | SCP | MCP |
+| --- | --- | --- |
+| Time to first skill | 2 minutes | 30+ minutes |
+| Runtime dependencies | None | SDK + runtime |
+| Running processes | 0 (until invoked) | 1 per integration |
+| Lines of code | ~10 (SKILL.md + script) | ~100+ (server + handlers) |
+| Learning curve | Write markdown, write scripts | Learn protocol, SDK, transports |
+| Discovery | Read a file | JSON-RPC `tools/list` |
+| Debugging | Run the script manually | Inspect JSON-RPC messages |

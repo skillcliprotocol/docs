@@ -1,34 +1,33 @@
-> **Customize this file**: Tailor this template to your project by noting specific contribution types you're looking for, adding a Code of Conduct, or adjusting the writing guidelines to match your style.
+# Contributing to SCP Docs
 
-# Contribute to the documentation
+We want SCP to be shaped by the community, not designed in a vacuum. Here's how to get involved.
 
-Thank you for your interest in contributing to our documentation! This guide will help you get started.
+## Found something wrong?
 
-## How to contribute
+[Open an issue](https://github.com/skillcliprotocol/docs/issues/new) — typos, unclear docs, broken examples, missing pages. All welcome.
 
-### Option 1: Edit directly on GitHub
+## Have a skill to share?
 
-1. Navigate to the page you want to edit
-2. Click the "Edit this file" button (the pencil icon)
-3. Make your changes and submit a pull request
+Write a skill, publish it, and open a PR to add it to the community examples.
 
-### Option 2: Local development
+## Want to improve the docs?
 
-1. Fork and clone this repository
-2. Install the Mintlify CLI: `npm i -g mint`
-3. Create a branch for your changes
-4. Make changes
-5. Navigate to the docs directory and run `mint dev`
-6. Preview your changes at `http://localhost:3000`
-7. Commit your changes and submit a pull request
+1. Fork this repo
+2. Make your changes
+3. Open a PR
 
-For more details on local development, see our [development guide](development.mdx).
+We review PRs quickly. Small, focused PRs are best.
 
-## Writing guidelines
+## Want to propose a convention?
 
-- **Use active voice**: "Run the command" not "The command should be run"
-- **Address the reader directly**: Use "you" instead of "the user"
-- **Keep sentences concise**: Aim for one idea per sentence
-- **Lead with the goal**: Start instructions with what the user wants to accomplish
-- **Use consistent terminology**: Don't alternate between synonyms for the same concept
-- **Include examples**: Show, don't just tell
+SCP is intentionally minimal. If you think something should be standardized, open an issue describing:
+
+- **What** you want to add
+- **Why** it's needed (real use case)
+- **Why it can't be solved** with the existing SKILL.md + script convention
+
+We'll discuss it in the open.
+
+## Code of conduct
+
+Be constructive. Be specific. Ship things.

@@ -1,0 +1,70 @@
+---
+title: "What is a skill?"
+---
+
+A skill is a **directory** containing at minimum a `SKILL.md` file. That file tells an AI agent what the skill does, when to use it, and how to invoke it.
+
+## Anatomy of a skill
+
+```
+github-skill/
+  SKILL.md          # Description, triggers, usage instructions
+  run.sh            # Optional: script the agent can execute
+  config.json       # Optional: structured metadata
+  templates/        # Optional: any supporting files
+```
+
+### SKILL.md
+
+The only required file. Written in plain markdown. Contains:
+
+- **What** the skill does (a short description)
+- **When** to use it (trigger phrases or conditions)
+- **How** to invoke it (commands, arguments, examples)
+
+The agent reads this file and decides whether and how to use the skill based on the current conversation.
+
+```markdown
+# GitHub Skill
+
+Interact with GitHub repositories using the `gh` CLI.
+
+## When to use
+
+When the user asks about PRs, issues, CI status,
+or any GitHub repository operation.
+
+## Commands
+
+- `gh pr list` — list open pull requests
+- `gh issue create --title "..." --body "..."` — create an issue
+- `gh run list` — check CI status
+```
+
+### Scripts (optional)
+
+If a skill needs to run code, it includes an executable. Any language works — shell, Python, Node, Go binary. The contract is simple:
+
+- **Input:** command-line arguments and/or stdin
+- **Output:** stdout (text the agent reads back)
+- **Errors:** stderr and non-zero exit codes
+
+No HTTP. No JSON-RPC. No WebSockets.
+
+## Skills vs MCP servers
+
+| | SCP Skill | MCP Server |
+| --- | --- | --- |
+| **What you ship** | A directory with markdown + scripts | A running process with JSON-RPC |
+| **Runtime** | None (agent reads files, runs CLIs) | Long-running server process |
+| **Protocol** | Filesystem + stdin/stdout | JSON-RPC 2.0 over stdio or HTTP |
+| **Discovery** | Agent reads `SKILL.md` | Client calls `tools/list` |
+| **Dependencies** | Whatever your script needs | SDK + transport + lifecycle |
+| **Installation** | Copy a folder | Configure + start a server |
+
+## Design principles
+
+1. **Files over protocols** — A skill is data the agent reads, not a service it connects to.
+2. **CLI over RPC** — When code needs to run, use standard Unix conventions.
+3. **Markdown over schemas** — Natural language descriptions are what LLMs understand best.
+4. **Simple over complete** — Cover the 90% case. Don't build abstractions for edge cases.

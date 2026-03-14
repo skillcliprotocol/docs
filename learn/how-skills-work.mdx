@@ -1,0 +1,76 @@
+---
+title: "How skills work"
+---
+
+## The agent loop
+
+When an agent receives a task, it follows this flow:
+
+```
+User message
+    ↓
+Agent scans available skills (reads SKILL.md descriptions)
+    ↓
+Agent selects matching skill(s)
+    ↓
+Agent reads full SKILL.md for usage instructions
+    ↓
+Agent runs commands / scripts as described
+    ↓
+Agent reads output and responds to user
+```
+
+There is no capability negotiation, no handshake, no initialization sequence. The agent reads a file and acts on it.
+
+## Discovery
+
+Skills are discovered through the filesystem. An agent knows about skills in its configured skill directories. When a task arrives, the agent scans skill descriptions to find relevant ones.
+
+```
+~/.skills/
+  github/SKILL.md
+  weather/SKILL.md
+  database/SKILL.md
+```
+
+This is analogous to how a developer scans tool documentation — read the description, decide if it's relevant, read the details if so.
+
+## Execution
+
+When a skill includes executable scripts, the agent runs them as child processes:
+
+```bash
+# Agent decides to use the weather skill
+./weather/run.sh "Tokyo"
+# stdout: Tokyo: ☀️ +15°C
+```
+
+The agent captures stdout and uses it as context for its response.
+
+### Environment variables
+
+Skills can receive configuration through environment variables. This keeps secrets out of command-line arguments (which appear in process listings).
+
+```bash
+# Agent sets env before calling
+GITHUB_TOKEN=ghp_xxx ./github/run.sh pr list
+```
+
+### Exit codes
+
+- `0` — success, stdout contains the result
+- Non-zero — failure, stderr contains the error message
+
+## Composition
+
+Skills can reference other skills. A "deploy" skill might call a "git" skill and a "docker" skill internally. This is just scripts calling scripts — no orchestration framework needed.
+
+## What SCP does NOT define
+
+SCP intentionally avoids specifying:
+
+- **Transport protocols** — there is no transport; skills are local files
+- **Authentication handshakes** — use environment variables or config files
+- **Capability negotiation** — the agent reads markdown; it understands what it reads
+- **Lifecycle management** — no connections to open or close
+- **Streaming protocols** — stdout is already a stream

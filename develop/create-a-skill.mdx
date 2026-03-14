@@ -1,0 +1,117 @@
+---
+title: "Create a skill"
+---
+
+## Step 1: Create the directory
+
+```bash
+mkdir my-skill && cd my-skill
+```
+
+## Step 2: Write SKILL.md
+
+Every skill starts with a `SKILL.md` file. This is what the agent reads to understand your skill.
+
+```markdown
+# My Skill Name
+
+One-line description of what this skill does.
+
+## Description
+
+A longer explanation if needed. Include context about
+when this skill is useful and any prerequisites.
+
+## When to use
+
+- Trigger condition 1
+- Trigger condition 2
+
+## Usage
+
+\`\`\`bash
+./run.sh <argument>
+\`\`\`
+
+## Examples
+
+\`\`\`bash
+# Example: do the thing
+./run.sh "hello world"
+# Output: Hello, World!
+\`\`\`
+
+## Notes
+
+Any caveats, limitations, or important details.
+```
+
+### Writing good descriptions
+
+The description is the most important part. It's how the agent decides whether to use your skill. Be specific:
+
+```markdown
+# ❌ Vague
+Search the internet for information.
+
+# ✅ Specific
+Search Hacker News for recent posts matching a query.
+Returns top 5 results with title, score, and URL.
+```
+
+## Step 3: Add a script (optional)
+
+If your skill needs to run code, add an executable:
+
+```bash
+#!/bin/bash
+# run.sh — Search Hacker News
+QUERY="${1:?Usage: run.sh <query>}"
+curl -s "https://hn.algolia.com/api/v1/search?query=${QUERY}&hitsPerPage=5" \
+  | jq -r '.hits[] | "[\(.points)] \(.title)\n  \(.url)\n"'
+```
+
+```bash
+chmod +x run.sh
+```
+
+**Any language works.** Use whatever makes sense:
+
+```python
+#!/usr/bin/env python3
+# run.py
+import sys
+print(f"Hello, {sys.argv[1]}!")
+```
+
+## Step 4: Test locally
+
+```bash
+# Just run it
+./run.sh "test query"
+```
+
+That's the whole debugging experience. No inspector needed. No protocol trace to parse.
+
+## Step 5: Install it
+
+```bash
+skills add ./my-skill
+```
+
+The skill is now available to any SCP-compatible agent on your system.
+
+## Directory structure reference
+
+```
+my-skill/
+  SKILL.md          # Required: description + usage
+  run.sh            # Optional: main executable
+  config.json       # Optional: structured metadata
+  lib/              # Optional: supporting code
+  templates/        # Optional: template files
+  examples/         # Optional: usage examples
+  README.md         # Optional: human docs (not read by agent)
+```
+
+The only required file is `SKILL.md`. Everything else is optional and depends on what your skill needs to do.

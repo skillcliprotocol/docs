@@ -1,0 +1,57 @@
+---
+title: "Testing skills"
+---
+
+Skills are scripts and markdown files. Test them the way you'd test any script.
+
+## Run the script directly
+
+```bash
+./run.sh "test input"
+```
+
+If it prints the right output, it works. If it doesn't, fix it.
+
+## Check the SKILL.md
+
+Read your `SKILL.md` as if you were the agent. Ask yourself:
+
+- Is it clear what this skill does?
+- Would an LLM know **when** to use it?
+- Are the usage examples correct and complete?
+- Are edge cases documented?
+
+## Test with an agent
+
+The best test is using the skill with an actual agent:
+
+```bash
+skills add ./my-skill
+# Then ask the agent a question that should trigger the skill
+```
+
+Watch whether the agent:
+
+1. Identifies the right skill
+2. Calls it with correct arguments
+3. Interprets the output correctly
+
+## Common issues
+
+| Problem | Fix |
+| --- | --- |
+| Agent doesn't find the skill | Check the description — is it specific enough? |
+| Agent calls it with wrong args | Add clearer examples to SKILL.md |
+| Script errors silently | Make sure errors go to stderr with non-zero exit |
+| Slow execution | Agent may timeout — add a note about expected duration |
+
+## Linting
+
+```bash
+skills lint ./my-skill
+```
+
+Checks that:
+- `SKILL.md` exists and is valid markdown
+- If `skill.json` exists, it's valid JSON with required fields
+- If an entry script exists, it's executable

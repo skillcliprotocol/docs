@@ -1,97 +1,41 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "What is the Skill CLI Protocol?"
+sidebarTitle: "What is SCP?"
 ---
 
-## Setting up
+SCP (Skill CLI Protocol) is an open convention for giving AI agents capabilities using plain files and standard CLI tools.
 
-Get your documentation site up and running in minutes.
+No SDKs. No servers. No protocol negotiation. Just a `SKILL.md` file and optionally a script.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+```
+my-skill/
+  SKILL.md       # What the skill does, when to use it
+  run.sh         # Optional: executable the agent can call
+```
 
-## Make it yours
+## The problem with MCP
 
-Design a docs site that looks great and empowers your users.
+MCP (Model Context Protocol) requires you to build and run a **server process** for every integration. Each server needs JSON-RPC, lifecycle management, capability negotiation, transport configuration, and an SDK.
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+That's a lot of machinery for "let the AI call a function."
+
+## SCP's approach
+
+A skill is just a markdown file that tells the agent what the skill does and how to use it. The agent reads it, understands it, and acts on it. If the skill needs to run code, it calls a CLI tool — stdin in, stdout out.
+
+**Skills are files. Tools are CLIs. That's it.**
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Create your first skill in 2 minutes
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Why not MCP?" icon="scale-balanced" href="/learn/why-not-mcp">
+    Understand the design tradeoffs
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Create a skill" icon="hammer" href="/develop/create-a-skill">
+    Build and share a skill
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Registry" icon="magnifying-glass" href="/registry/overview">
+    Find and install community skills
   </Card>
-</Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+</CardGroup>

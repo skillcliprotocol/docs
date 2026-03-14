@@ -1,0 +1,59 @@
+---
+title: "Skill manifest"
+sidebarTitle: "skill.json"
+---
+
+While `SKILL.md` is the only required file, a `skill.json` manifest provides structured metadata for tooling — registries, package managers, and agent frameworks that want machine-readable skill information.
+
+## Example
+
+```json
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "Get current weather for any location",
+  "author": "yourname",
+  "license": "MIT",
+  "entry": "run.sh",
+  "args": [
+    {
+      "name": "location",
+      "type": "string",
+      "required": true,
+      "description": "City name or coordinates"
+    }
+  ],
+  "env": [
+    {
+      "name": "WEATHER_API_KEY",
+      "required": false,
+      "description": "API key for extended forecasts"
+    }
+  ],
+  "tags": ["weather", "utility"]
+}
+```
+
+## Fields
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `name` | Yes | Unique skill identifier |
+| `version` | Yes | Semver version string |
+| `description` | Yes | One-line summary |
+| `author` | No | Author name or GitHub handle |
+| `license` | No | SPDX license identifier |
+| `entry` | No | Path to main executable (default: `run.sh`) |
+| `args` | No | Array of expected arguments |
+| `env` | No | Array of environment variables the skill uses |
+| `tags` | No | Keywords for discovery |
+
+## When to use skill.json
+
+- **Publishing to a registry** — registries use it for search and display
+- **Complex argument handling** — document expected inputs for better agent performance
+- **Environment requirements** — declare what env vars the skill needs
+
+## When to skip it
+
+For simple skills used locally, `SKILL.md` alone is sufficient. Don't add structure you don't need.
