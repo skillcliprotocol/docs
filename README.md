@@ -1,6 +1,6 @@
 # Skill CLI Protocol — Documentation
 
-The official docs for [SCP (Skill CLI Protocol)](https://skillcliprotocol.com).
+The official docs for [SCP (Skill CLI Protocol)](https://skillcliprotocol.io).
 
 SCP is an open convention for giving AI agents capabilities using plain files and standard CLI tools. No SDKs, no servers, no protocol negotiation.
 
