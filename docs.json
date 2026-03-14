@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Skill CLI Protocol",
   "colors": {
-    "primary": "#F97316",
-    "light": "#FB923C",
-    "dark": "#EA580C"
+    "primary": "#09090b",
+    "light": "#FAFAFA",
+    "dark": "#09090b"
   },
   "favicon": "/favicon.svg",
   "navigation": {
